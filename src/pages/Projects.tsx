@@ -15,7 +15,7 @@ const projectData = [
     title: "Hotel Project",
     description:
       "A hotel management app with booking, admin panel, and user dashboard.",
-    image: hotelImage,
+    images: [hotelImage, hotelImage, vicevigilImage],
     tech: ["PHP", "JavaSript", "CSS"],
     github: "https://github.com/your-username/hotel-project",
     live: "https://hotel-app.example.com",
@@ -24,7 +24,7 @@ const projectData = [
     title: "ViceVigil App",
     description:
       "App for tracking your health and helping to overcome addiction.",
-    image: vicevigilImage,
+    images: [vicevigilImage, hotelImage, vicevigilImage],
     tech: ["Next.js", "SCSS", "TypeScript"],
     github: "https://github.com/Truly-Depressed-Developers/ViceVigil",
     live: "https://weather-app.example.com",
@@ -33,7 +33,7 @@ const projectData = [
     title: "Todo Manager",
     description:
       "Manage tasks and track productivity with drag-and-drop support.",
-    image: hotelImage,
+    images: [hotelImage, vicevigilImage, hotelImage],
     tech: ["Next.js", "TypeScript", "Tailwind CSS"],
     github: "https://github.com/your-username/todo-manager",
     live: "https://todo-manager.example.com",
@@ -43,6 +43,8 @@ const projectData = [
 function Projects() {
   const ref = React.useRef(null);
   const inView = useInView(ref);
+  const [focusedIndex, setFocusedIndex] = React.useState<number | null>(null);
+  const [hoveredIndex, setHoveredIndex] = React.useState<number | null>(null);
   const variants = {
     visible: { opacity: 1, scale: 1, y: 0 },
     hidden: {
@@ -62,10 +64,18 @@ function Projects() {
       },
     },
     hover: {
-      //   flex: 3,
-      width: "180%",
-      z: 10,
-      transform: "translateX(-20%) translateY(-10%)",
+      // scale: 1.05,
+      transition: {
+        duration: 0.3,
+        ease: "easeOut",
+      },
+      cursor: "pointer",
+    },
+    focused: {
+      width: "200%",
+      height: "150%",
+      position: "absolute",
+      zIndex: 20,
       transition: {
         duration: 0.3,
         ease: "easeOut",
@@ -75,12 +85,11 @@ function Projects() {
   return (
     <div className="h-screen pt-1/8 w-full flex justify-center">
       {/* <LinesBackground size={150} red={100} green={0} blue={0} /> */}
-      <div style={{ maxWidth: "1280px" }} className="w-full h-ful relative">
+      <div style={{ maxWidth: "1280px" }} className="w-full h-full">
         <motion.div
           ref={ref}
           animate={inView ? "visible" : "hidden"}
           variants={variants}
-          layout
           transition={{ duration: 2, ease: "easeOut" }}
           className="w-full h-full flex items-center flex-col pt-50"
         >
@@ -88,28 +97,42 @@ function Projects() {
           <div className="flex justify-between w-full mt-10 gap-8 grow">
             {projectData.map((project, index) => (
               <motion.div
-                layout
                 initial="rest"
-                whileTap="hover"
-                animate="rest"
+                // whileHover="hover"
+                // whileFocus="focused"
+                animate={
+                  focusedIndex === index
+                    ? "focused"
+                    : focusedIndex === null
+                      ? hoveredIndex === index
+                        ? "hover"
+                        : "rest"
+                      : "rest"
+                }
+                onClick={() =>
+                  setFocusedIndex(focusedIndex === index ? null : index)
+                }
+                onMouseEnter={() => {
+                  setHoveredIndex(index);
+                }}
+                onMouseLeave={() => { setHoveredIndex(null); }}
                 key={index}
-                // className="w-full h-full relative z-10 hover:z-20 transition-all duration-300"
-                className="relative z-10 hover:z-20 transition-all duration-300 w-full h-full"
+                className="relative z-10 hover:z-20 transition-all duration-300 w-full h-fit"
               >
                 <motion.div variants={cardVariants}>
                   <Card className="rounded-lg shadow-lg overflow-hidden p-0">
                     <div className="aspect-[16/9] w-full overflow-hidden">
                       <CustomCarousel index={index}>
-                        <img
-                          src={project.image}
-                          alt={project.title}
-                          className="w-full h-full object-contain bg-background"
-                        />
-                        <img
-                          src={project.image}
-                          alt={project.title}
-                          className="w-full h-full object-contain bg-background"
-                        />
+                        {
+                          project.images.map((img, idx) => (
+                            <img
+                              key={idx}
+                              src={img}
+                              alt={`${project.title} screenshot ${idx + 1}`}
+                              className="w-full h-full object-contain bg-background"
+                            />
+                          ))
+                        }
                       </CustomCarousel>
                     </div>
                     <div className="space-y-2 ml-6">

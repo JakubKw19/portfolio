@@ -1,43 +1,41 @@
-import React, { useEffect, useRef } from "react";
-import Autoplay from "embla-carousel-autoplay";
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
-} from "@/components/ui/carousel";
+import React, { useEffect, useState } from "react";
 
 interface CustomCarouselProps {
-    children: React.ReactNode[]
-    index: number;
+    children: React.ReactNode[];
+    index: number; // total number of slides
 }
 
 function CustomCarousel({ children, index }: CustomCarouselProps) {
-    const autoplay = useRef(Autoplay({ delay: 6000 }));
+    const [currentChild, setCurrentChild] = useState(0);
 
     useEffect(() => {
-        autoplay.current.stop();
-
+        let interval: NodeJS.Timeout;
         const timer = setTimeout(() => {
-            autoplay.current.play();
+            interval = setInterval(() => {
+                setCurrentChild((prev) => (prev === children.length - 1 ? 0 : prev + 1));
+            }, 6000);
         }, index * 1000);
 
-        return () => clearTimeout(timer);
-    }, [index]);
+
+        return () => {
+            clearInterval(interval);
+            clearTimeout(timer);
+        };
+    }, [children.length, index]);
 
     return (
-        <Carousel opts={{ loop: true }} plugins={[autoplay.current]}>
-            <CarouselContent>
-                {
-                    children.map((child) => (
-                        <CarouselItem>{child}</CarouselItem>
-                    ))
-                }
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-        </Carousel>
+        <div className="w-full h-full overflow-hidden relative">
+            <div
+                className="w-full h-full flex transition-transform duration-700 ease-in-out"
+                style={{ transform: `translateX(-${currentChild * 100}%)` }}
+            >
+                {children.map((child, i) => (
+                    <div key={i} className="w-full flex-shrink-0">
+                        {child}
+                    </div>
+                ))}
+            </div>
+        </div>
     );
 }
 
