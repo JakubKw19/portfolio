@@ -1,7 +1,12 @@
 // import LinesBackground from "@/components/ui/LinesBackground";
 
 import { Card, CardFooter } from "@/components/ui/card";
-import { motion, useInView, type MotionProps } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useInView,
+  type MotionProps,
+} from "framer-motion";
 import React from "react";
 import hotelImage from "@/assets/hotel1.png";
 import vicevigilImage from "@/assets/vicevigil.png";
@@ -71,43 +76,32 @@ function Projects() {
       },
       cursor: "pointer",
     },
-    focused: {
-      width: "200%",
-      height: "150%",
-      position: "absolute",
-      zIndex: 20,
-      transition: {
-        duration: 0.3,
-        ease: "easeOut",
-      },
-    },
   };
   return (
-    <div className="h-screen pt-1/8 w-full flex justify-center">
+    <div className="min-h-screen pt-1/8 w-full flex justify-center">
       {/* <LinesBackground size={150} red={100} green={0} blue={0} /> */}
-      <div style={{ maxWidth: "1280px" }} className="w-full h-full">
+      <div style={{ maxWidth: "1280px" }} className="w-full h-full p-5">
         <motion.div
           ref={ref}
           animate={inView ? "visible" : "hidden"}
           variants={variants}
           transition={{ duration: 2, ease: "easeOut" }}
-          className="w-full h-full flex items-center flex-col pt-50"
+          className="w-full h-5/7 flex items-center flex-col pt-50"
         >
           <h1 className="text-5xl mb-4">My Projects</h1>
           <div className="flex justify-between w-full mt-10 gap-8 grow">
             {projectData.map((project, index) => (
               <motion.div
+                layout
                 initial="rest"
-                // whileHover="hover"
-                // whileFocus="focused"
                 animate={
                   focusedIndex === index
                     ? "focused"
                     : focusedIndex === null
-                      ? hoveredIndex === index
-                        ? "hover"
-                        : "rest"
+                    ? hoveredIndex === index
+                      ? "hover"
                       : "rest"
+                    : "rest"
                 }
                 onClick={() =>
                   setFocusedIndex(focusedIndex === index ? null : index)
@@ -115,24 +109,98 @@ function Projects() {
                 onMouseEnter={() => {
                   setHoveredIndex(index);
                 }}
-                onMouseLeave={() => { setHoveredIndex(null); }}
+                onMouseLeave={() => {
+                  setHoveredIndex(null);
+                }}
                 key={index}
                 className="relative z-10 hover:z-20 transition-all duration-300 w-full h-fit"
               >
+                <AnimatePresence>
+                  {focusedIndex === index && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.5, ease: "easeOut" }}
+                      className="fixed top-0 left-0 w-screen h-screen z-20 bg-black/90 flex justify-center items-center"
+                    >
+                      <motion.div
+                        initial={{ y: 50 }}
+                        animate={{ y: 0 }}
+                        exit={{ y: -50 }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
+                        className="relative w-full max-w-3xl h-fit"
+                        variants={cardVariants}
+                      >
+                        <Card className="rounded-lg shadow-lg overflow-hidden p-0">
+                          <div className="aspect-[16/9] w-full overflow-hidden">
+                            <CustomCarousel index={index}>
+                              {project.images.map((img, idx) => (
+                                <img
+                                  key={idx}
+                                  src={img}
+                                  alt={`${project.title} screenshot ${idx + 1}`}
+                                  className="w-full h-full object-contain bg-background"
+                                />
+                              ))}
+                            </CustomCarousel>
+                          </div>
+                          <div className="space-y-2 ml-6">
+                            <h3 className="text-xl font-semibold">
+                              {project.title}
+                            </h3>
+                            <p className="text-gray-500 dark:text-gray-400">
+                              {project.description}
+                            </p>
+                            <ul className="flex flex-wrap gap-2 -ml-1">
+                              {project.tech.map((tech, idx) => (
+                                <li key={idx}>
+                                  <Badge
+                                    variant={"outline"}
+                                    className="text-sm"
+                                  >
+                                    {tech}
+                                  </Badge>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                          <CardFooter>
+                            <span className="text-2xl font-bold flex pb-6">
+                              <a
+                                href={project.github}
+                                className="pr-4"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <FaGithub />
+                              </a>
+                              <a
+                                href={project.live}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <FaExternalLinkAlt />
+                              </a>
+                            </span>
+                          </CardFooter>
+                        </Card>
+                      </motion.div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
                 <motion.div variants={cardVariants}>
                   <Card className="rounded-lg shadow-lg overflow-hidden p-0">
                     <div className="aspect-[16/9] w-full overflow-hidden">
                       <CustomCarousel index={index}>
-                        {
-                          project.images.map((img, idx) => (
-                            <img
-                              key={idx}
-                              src={img}
-                              alt={`${project.title} screenshot ${idx + 1}`}
-                              className="w-full h-full object-contain bg-background"
-                            />
-                          ))
-                        }
+                        {project.images.map((img, idx) => (
+                          <img
+                            key={idx}
+                            src={img}
+                            alt={`${project.title} screenshot ${idx + 1}`}
+                            className="w-full h-full object-contain bg-background"
+                          />
+                        ))}
                       </CustomCarousel>
                     </div>
                     <div className="space-y-2 ml-6">
