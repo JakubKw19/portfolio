@@ -36,17 +36,18 @@ function App() {
         <Technologies />
       </motion.div>
       <motion.div
+        className="h-fit w-full flex justify-center bg-background relative"
+      >
+        <Experience />
+
+      </motion.div>
+      <motion.div
         className="h-fit w-full flex justify-center bg-card relative"
       >
         <Projects />
       </motion.div>
       <motion.div
         className="h-fit w-full flex justify-center bg-background relative"
-      >
-        <Experience />
-      </motion.div>
-      <motion.div
-        className="h-fit w-full flex justify-center bg-card relative"
       >
         <ContactMe />
       </motion.div>

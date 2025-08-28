@@ -1,9 +1,18 @@
+import { Card } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import { TypographyH1 } from "@/components/ui/typography/Typography"
 
 function ContactMe() {
     return (
-        <div className="py-60 px-10">
+        <div className="py-60 px-10 w-full flex justify-center items-center flex-col" style={{ maxWidth: "1280px" }}>
             <TypographyH1 className="mb-10 flex justify-center">Contact Me</TypographyH1>
+            <Card className="p-10 bg-card flex flex-col items-center w-3/5">
+                <Input type="email" placeholder="Your email" className="w-full py-5 mx-auto" />
+                <Input type="text" placeholder="Subject" className="w-full py-5 mx-auto" />
+                <Textarea placeholder="Your message" className="w-full py-3 h-40 mx-auto" />
+                <button className="bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/90 transition w-full">Send</button>
+            </Card>
 
         </div>
     )
