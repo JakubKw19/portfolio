@@ -14,8 +14,18 @@ import { FaGithub } from "react-icons/fa";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { Badge } from "@/components/ui/badge";
 import CustomCarousel from "@/components/ui/CustomCarousel";
+import SliderPopup from "@/components/slider-popup";
 
-const projectData = [
+export type Project = {
+  title: string;
+  description: string;
+  images: string[];
+  tech: string[];
+  github: string;
+  live: string;
+};
+
+const projectData: Project[] = [
   {
     title: "Hotel Project",
     description:
@@ -51,18 +61,21 @@ function Projects() {
   const [focusedIndex, setFocusedIndex] = React.useState<number | null>(null);
   const [hoveredIndex, setHoveredIndex] = React.useState<number | null>(null);
   const variants = {
-    visible: { opacity: 1, scale: 1, y: 0 },
+    visible: {
+      opacity: 1,
+      // scale: 1, 
+      // y: 0 
+    },
     hidden: {
       opacity: 0,
-      scale: 0.65,
-      y: 50,
+      // scale: 0.65,
+      // y: 50,
     },
   };
   const cardVariants: MotionProps["variants"] = {
     rest: {
       //   flex: 1,
       width: "100%",
-      z: 1,
       transition: {
         duration: 0.3,
         ease: "easeOut",
@@ -77,16 +90,20 @@ function Projects() {
       cursor: "pointer",
     },
   };
+  const handlePopupClose = () => {
+    setFocusedIndex(null);
+    setHoveredIndex(null);
+  };
   return (
-    <div className="min-h-screen pt-1/8 w-full flex justify-center">
-      {/* <LinesBackground size={150} red={100} green={0} blue={0} /> */}
+    <div className="py-60 w-full flex justify-center">
       <div style={{ maxWidth: "1280px" }} className="w-full h-full p-5">
         <motion.div
+          layout
           ref={ref}
           animate={inView ? "visible" : "hidden"}
           variants={variants}
           transition={{ duration: 2, ease: "easeOut" }}
-          className="w-full h-5/7 flex items-center flex-col pt-50"
+          className="w-full h-5/7 flex items-center flex-col"
         >
           <h1 className="text-5xl mb-4">My Projects</h1>
           <div className="flex justify-between w-full mt-10 gap-8 grow">
@@ -98,13 +115,17 @@ function Projects() {
                   focusedIndex === index
                     ? "focused"
                     : focusedIndex === null
-                    ? hoveredIndex === index
-                      ? "hover"
+                      ? hoveredIndex === index
+                        ? "hover"
+                        : "rest"
                       : "rest"
-                    : "rest"
                 }
-                onClick={() =>
-                  setFocusedIndex(focusedIndex === index ? null : index)
+                onClick={() => {
+                  if (focusedIndex === null) {
+                    setFocusedIndex(focusedIndex === index ? null : index)
+                    setHoveredIndex(null);
+                  }
+                }
                 }
                 onMouseEnter={() => {
                   setHoveredIndex(index);
@@ -113,80 +134,11 @@ function Projects() {
                   setHoveredIndex(null);
                 }}
                 key={index}
-                className="relative z-10 hover:z-20 transition-all duration-300 w-full h-fit"
+                className="relative transition-all duration-300 w-full h-fit"
               >
                 <AnimatePresence>
                   {focusedIndex === index && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.5, ease: "easeOut" }}
-                      className="fixed top-0 left-0 w-screen h-screen z-20 bg-black/90 flex justify-center items-center"
-                    >
-                      <motion.div
-                        initial={{ y: 50 }}
-                        animate={{ y: 0 }}
-                        exit={{ y: -50 }}
-                        transition={{ duration: 0.5, ease: "easeOut" }}
-                        className="relative w-full max-w-3xl h-fit"
-                        variants={cardVariants}
-                      >
-                        <Card className="rounded-lg shadow-lg overflow-hidden p-0">
-                          <div className="aspect-[16/9] w-full overflow-hidden">
-                            <CustomCarousel index={index}>
-                              {project.images.map((img, idx) => (
-                                <img
-                                  key={idx}
-                                  src={img}
-                                  alt={`${project.title} screenshot ${idx + 1}`}
-                                  className="w-full h-full object-contain bg-background"
-                                />
-                              ))}
-                            </CustomCarousel>
-                          </div>
-                          <div className="space-y-2 ml-6">
-                            <h3 className="text-xl font-semibold">
-                              {project.title}
-                            </h3>
-                            <p className="text-gray-500 dark:text-gray-400">
-                              {project.description}
-                            </p>
-                            <ul className="flex flex-wrap gap-2 -ml-1">
-                              {project.tech.map((tech, idx) => (
-                                <li key={idx}>
-                                  <Badge
-                                    variant={"outline"}
-                                    className="text-sm"
-                                  >
-                                    {tech}
-                                  </Badge>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                          <CardFooter>
-                            <span className="text-2xl font-bold flex pb-6">
-                              <a
-                                href={project.github}
-                                className="pr-4"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                <FaGithub />
-                              </a>
-                              <a
-                                href={project.live}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                <FaExternalLinkAlt />
-                              </a>
-                            </span>
-                          </CardFooter>
-                        </Card>
-                      </motion.div>
-                    </motion.div>
+                    <SliderPopup project={project} index={index} handlePopupClose={handlePopupClose} key="popup" />
                   )}
                 </AnimatePresence>
                 <motion.div variants={cardVariants}>

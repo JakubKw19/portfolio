@@ -82,7 +82,7 @@ const Technologies = () => {
 
     return (
         <motion.div ref={ref} animate={inView ? 'visible' : 'hidden'} variants={variants} transition={{ duration: 2, ease: 'easeOut' }}
-            className="w-full h-full flex items-center justify-center flex-col"
+            className="py-60 w-full h-full flex items-center justify-center flex-col"
             style={{ maxWidth: '1280px' }}>
             <GlassPaper className="w-full flex flex-col">
                 <TypographyH1 className="w-full flex justify-center  pb-8">Technologies</TypographyH1>

@@ -6,6 +6,8 @@ import Home from "./pages/Home"
 import LinesBackground from "./components/ui/LinesBackground"
 import Technologies from "./pages/Technologies"
 import Projects from "./pages/Projects"
+import Experience from "./pages/Experience"
+import ContactMe from "./pages/ContactMe"
 
 function App() {
   // const { scrollY } = useScroll();
@@ -22,22 +24,31 @@ function App() {
 
       <motion.div
         // style={{ y: y2 }}
-        className="h-screen w-full relative"
+        className="h-fit w-full relative"
       >
-
         <AboutMe />
       </motion.div>
       <motion.div
-        className="h-screen w-full flex justify-center bg-transparent relative"
+        className="h-fit w-full flex justify-center bg-transparent relative"
         style={{ background: 'linear-gradient(180deg,rgba(255, 0, 0, 0.05) 0%, rgba(255, 0, 0, 0.03) 10%, rgba(255, 0, 0, 0.01) 30%, rgba(255, 0, 0, 0) 100%)' }}
       >
         <LinesBackground size={150} red={100} green={0} blue={0} />
         <Technologies />
       </motion.div>
       <motion.div
-        className="h-screen w-full flex justify-center bg-card relative"
+        className="h-fit w-full flex justify-center bg-card relative"
       >
         <Projects />
+      </motion.div>
+      <motion.div
+        className="h-fit w-full flex justify-center bg-background relative"
+      >
+        <Experience />
+      </motion.div>
+      <motion.div
+        className="h-fit w-full flex justify-center bg-card relative"
+      >
+        <ContactMe />
       </motion.div>
     </ThemeProvider>
   )

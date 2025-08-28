@@ -20,15 +20,15 @@ function AboutMe() {
     },
   };
   return (
-    <div className="h-screen pt-1/8 w-full flex justify-center">
+    <div className="w-full flex justify-center py-60">
       {/* <LinesBackground size={150} red={100} green={0} blue={0} /> */}
-      <div style={{ maxWidth: "1280px" }} className="w-full h-full">
+      <div style={{ maxWidth: "1280px" }} className="w-full h-full ">
         <motion.div
           ref={ref}
           animate={inView ? "visible" : "hidden"}
           variants={variants}
           transition={{ duration: 2, ease: "easeOut" }}
-          className="w-full h-full flex items-center flex-col pt-50"
+          className="w-full h-full flex items-center flex-col"
         >
           <h1 className="text-5xl mb-4">About Me</h1>
           <p className="text-xl text-center">
