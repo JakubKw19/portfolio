@@ -9,6 +9,7 @@ function Home() {
   return (
     <div
       className="h-screen pt-1/8 w-full flex justify-center"
+      id="home"
       style={{
         background:
           "linear-gradient(0deg,rgba(255, 0, 0, 0.05) 0%, rgba(255, 0, 0, 0.03) 10%, rgba(255, 0, 0, 0.01) 30%, rgba(255, 0, 0, 0) 100%)",

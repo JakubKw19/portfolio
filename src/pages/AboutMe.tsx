@@ -20,7 +20,7 @@ function AboutMe() {
     },
   };
   return (
-    <div className="w-full flex justify-center py-60">
+    <div id="about" className="w-full flex justify-center py-60">
       {/* <LinesBackground size={150} red={100} green={0} blue={0} /> */}
       <div style={{ maxWidth: "1280px" }} className="w-full h-full ">
         <motion.div
@@ -36,7 +36,7 @@ function AboutMe() {
             development, I specialize in creating robust, scalable applications
             that deliver exceptional user experiences.
           </p>
-          <div className="flex justify-between w-full mt-10">
+          <div className="flex flex-col justify-between mt-10">
             <Card className="w-full p-5 m-10">
               <CardHeader className="p-4">
                 <Card className="w-fit p-3">
