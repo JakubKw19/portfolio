@@ -63,8 +63,8 @@ function Projects() {
   const variants = {
     visible: {
       opacity: 1,
-      // scale: 1, 
-      // y: 0 
+      // scale: 1,
+      // y: 0
     },
     hidden: {
       opacity: 0,
@@ -83,6 +83,7 @@ function Projects() {
     },
     hover: {
       // scale: 1.05,
+      transform: "translateY(-10px)",
       transition: {
         duration: 0.3,
         ease: "easeOut",
@@ -106,7 +107,7 @@ function Projects() {
           className="w-full h-5/7 flex items-center flex-col"
         >
           <h1 className="text-5xl mb-4">My Projects</h1>
-          <div className="flex justify-between w-full mt-10 gap-8 grow">
+          <div className="flex max-lg:flex-col sm:max-lg:w-3/5 max-sm:p-10 justify-between w-full mt-10 gap-8 grow">
             {projectData.map((project, index) => (
               <motion.div
                 layout
@@ -115,18 +116,17 @@ function Projects() {
                   focusedIndex === index
                     ? "focused"
                     : focusedIndex === null
-                      ? hoveredIndex === index
-                        ? "hover"
-                        : "rest"
+                    ? hoveredIndex === index
+                      ? "hover"
                       : "rest"
+                    : "rest"
                 }
                 onClick={() => {
                   if (focusedIndex === null) {
-                    setFocusedIndex(focusedIndex === index ? null : index)
+                    setFocusedIndex(focusedIndex === index ? null : index);
                     setHoveredIndex(null);
                   }
-                }
-                }
+                }}
                 onMouseEnter={() => {
                   setHoveredIndex(index);
                 }}
@@ -138,7 +138,12 @@ function Projects() {
               >
                 <AnimatePresence>
                   {focusedIndex === index && (
-                    <SliderPopup project={project} index={index} handlePopupClose={handlePopupClose} key="popup" />
+                    <SliderPopup
+                      project={project}
+                      index={index}
+                      handlePopupClose={handlePopupClose}
+                      key="popup"
+                    />
                   )}
                 </AnimatePresence>
                 <motion.div variants={cardVariants}>
@@ -157,7 +162,7 @@ function Projects() {
                     </div>
                     <div className="space-y-2 ml-6">
                       <h3 className="text-xl font-semibold">{project.title}</h3>
-                      <p className="text-gray-500 dark:text-gray-400">
+                      <p className="text-gray-500 dark:text-gray-400 max-md:text-sm">
                         {project.description}
                       </p>
                       <ul className="flex flex-wrap gap-2 -ml-1">

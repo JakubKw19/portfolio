@@ -77,7 +77,7 @@ function Navbar({ variant = "default" }: NavbarProps) {
               {routes.map((route) => (
                 <motion.li
                   key={route.name}
-                  whileHover={{ scale: 1.05, color: "white" }}
+                  whileHover={{ scale: 1.05, color: "#ff3333" }}
                 >
                   <Link
                     to={route.href}
@@ -96,9 +96,9 @@ function Navbar({ variant = "default" }: NavbarProps) {
                 to={"contact"}
                 spy={true}
                 smooth={true}
-                className="hover:text-white"
+                className="no-underline text-inherit hover:text-inherit"
               >
-                <Button className="hover:text-white">Contact me</Button>
+                <Button>Contact me</Button>
               </Link>
             </div>
           </div>

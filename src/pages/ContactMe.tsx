@@ -9,11 +9,11 @@ import { FaLinkedin } from "react-icons/fa";
 function ContactMe() {
   return (
     <div
-      className="py-60 px-10 w-full flex justify-center items-center flex-col"
+      className="py-60 w-full flex justify-center items-center flex-col"
       style={{ maxWidth: "1280px" }}
     >
       <TypographyH1 className="flex justify-center">Contact Me</TypographyH1>
-      <div className="m-10 flex justify-between w-1/4">
+      <div className="m-10 flex justify-between w-1/2 md:w-1/4">
         <a
           href="https://github.com/JakubKw19"
           className="transition-all duration-300 hover:scale-110 hover:-translate-y-1"
@@ -33,7 +33,7 @@ function ContactMe() {
           <FaLinkedin size={40} />
         </a>
       </div>
-      <Card className="p-10 bg-card flex flex-col items-center w-3/5">
+      <Card className="p-6 md:p-10 bg-card flex flex-col items-center w-4/5 md:w-3/5">
         <Input
           type="email"
           placeholder="Your email"
