@@ -1,4 +1,4 @@
-import { motion, useScroll, useSpring } from "framer-motion";
+import { motion } from "framer-motion";
 import { ThemeProvider } from "./components/theme-provider";
 import Navbar from "./components/ui/Navbar";
 import AboutMe from "./pages/AboutMe";
@@ -14,7 +14,7 @@ function App() {
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <Navbar />
       <Navbar variant="sticky" />
-      <motion.div className="h-screen w-full relative">
+      <motion.div className="h-fit w-full relative">
         <LinesBackground size={150} red={100} green={0} blue={0} />
         <Home />
       </motion.div>
@@ -38,7 +38,7 @@ function App() {
       </motion.div>
       <motion.div
         id="experience"
-        className="h-fit w-full flex justify-center bg-background relative"
+        className="h-fit w-full flex justify-center bg-background relative top-22"
       >
         <Experience />
       </motion.div>
