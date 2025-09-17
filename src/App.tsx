@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ThemeProvider } from "./components/theme-provider";
+import { ThemeProvider, useTheme } from "./components/theme-provider";
 import Navbar from "./components/ui/Navbar";
 import AboutMe from "./pages/AboutMe";
 import Home from "./pages/Home";
@@ -8,6 +8,7 @@ import Technologies from "./pages/Technologies";
 import Projects from "./pages/Projects";
 import Experience from "./pages/Experience";
 import ContactMe from "./pages/ContactMe";
+import ThemedBackGround from "./components/ThemedBackGround";
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
       <Navbar />
       <Navbar variant="sticky" />
       <motion.div className="h-fit w-full relative">
-        <LinesBackground size={150} red={100} green={0} blue={0} />
+        <ThemedBackGround />
         <Home />
       </motion.div>
 
@@ -27,18 +28,18 @@ function App() {
       </motion.div>
       <motion.div
         id="technologies"
-        className="h-fit w-full flex justify-center bg-transparent relative"
+        className="h-fit w-full flex justify-center bg-transparent relative pb-22"
         style={{
           background:
             "linear-gradient(180deg,rgba(255, 0, 0, 0.05) 0%, rgba(255, 0, 0, 0.03) 10%, rgba(255, 0, 0, 0.01) 30%, rgba(255, 0, 0, 0) 100%)",
         }}
       >
-        <LinesBackground size={150} red={100} green={0} blue={0} />
+        <ThemedBackGround />
         <Technologies />
       </motion.div>
       <motion.div
         id="experience"
-        className="h-fit w-full flex justify-center bg-background relative top-22"
+        className="h-fit w-full flex justify-center bg-background relative"
       >
         <Experience />
       </motion.div>

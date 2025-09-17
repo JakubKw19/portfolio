@@ -1,16 +1,25 @@
 import { motion, useScroll } from "framer-motion";
-import { ModeToggle } from "../mode-toggle";
 import { Button } from "./button";
 import { useEffect, useState } from "react";
 import { Link } from "react-scroll";
+import { Popover, PopoverContent, PopoverTrigger } from "./popover";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuList,
+} from "./navigation-menu";
+import { DayNightSwitch } from "./shsfui/day-night-switch";
+import { useTheme } from "../theme-provider";
 
 type NavbarProps = {
   variant?: "default" | "sticky";
 };
 
 function Navbar({ variant = "default" }: NavbarProps) {
+  const { setTheme, resolvedTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const { scrollYProgress } = useScroll();
+  const [open, setOpen] = useState(false);
   const navHeight = "6rem";
   const lineHeight = "5px";
 
@@ -68,22 +77,19 @@ function Navbar({ variant = "default" }: NavbarProps) {
             to="home"
             spy={true}
             smooth={true}
-            className="text-6xl text-primary font-abhaya hover:cursor-pointer"
+            className="text-4xl lg:text-6xl text-primary font-abhaya hover:cursor-pointer"
           >
             Portfolio
           </Link>
-          <div className="flex items-center gap-14">
-            <ul className="flex items-center space-x-8 text-xl">
+
+          <div className="flex items-center lg:gap-12 gap-6">
+            <ul className="flex items-center lg:space-x-8 space-x-6 text-sm lg:text-xl max-md:hidden">
               {routes.map((route) => (
-                <motion.li
-                  key={route.name}
-                  whileHover={{ scale: 1.05, color: "#ff3333" }}
-                >
+                <motion.li key={route.name} whileHover={{ scale: 1.05 }}>
                   <Link
                     to={route.href}
-                    spy={true}
                     smooth={true}
-                    className="hover:cursor-pointer"
+                    className="hover:cursor-pointer block text-foreground hover:text-primary"
                   >
                     {route.name}
                   </Link>
@@ -91,15 +97,85 @@ function Navbar({ variant = "default" }: NavbarProps) {
               ))}
             </ul>
             <div className="flex items-center gap-4">
-              <ModeToggle />
-              <Link
-                to={"contact"}
-                spy={true}
-                smooth={true}
-                className="no-underline text-inherit hover:text-inherit"
-              >
-                <Button>Contact me</Button>
-              </Link>
+              <div className="flex items-center md:hidden">
+                {/* Mobile menu trigger */}
+                <Popover open={open} onOpenChange={setOpen}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      className="group scale-140 overflow-visible"
+                      variant="ghost"
+                      size="icon"
+                    >
+                      <svg
+                        className="pointer-events-none w-30 h-30"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M4 12L20 12"
+                          className="origin-center -translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-x-0 group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[315deg]"
+                        />
+                        <path
+                          d="M4 12H20"
+                          className="origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] group-aria-expanded:rotate-45"
+                        />
+                        <path
+                          d="M4 12H20"
+                          className="origin-center translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[135deg]"
+                        />
+                      </svg>
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent align="start" className="w-36 p-1 md:hidden">
+                    <NavigationMenu className="max-w-none *:w-full">
+                      <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
+                        {routes.map((link, index) => (
+                          <NavigationMenuItem key={index} className="w-full">
+                            <motion.li
+                              key={link.name}
+                              className="w-full h-full "
+                              whileHover={{ scale: 1.05 }}
+                            >
+                              <Link
+                                to={link.href}
+                                spy={true}
+                                smooth={true}
+                                className="block py-1.5 w-full h-full cursor-pointer px-2 hover:text-primary hover:bg-black/10 rounded-md"
+                                onClick={() => setOpen(false)}
+                              >
+                                {link.name}
+                              </Link>
+                            </motion.li>
+                          </NavigationMenuItem>
+                        ))}
+                      </NavigationMenuList>
+                    </NavigationMenu>
+                  </PopoverContent>
+                </Popover>
+              </div>
+              <DayNightSwitch
+                checked={resolvedTheme === "dark" ? false : true}
+                id="theme-toggle"
+                aria-label="Toggle theme"
+                onToggle={() => {
+                  setTheme(resolvedTheme === "dark" ? "light" : "dark");
+                }}
+              />
+
+              <Button className="hover:text-white">
+                <Link
+                  to={"contact"}
+                  smooth={true}
+                  className="block hover:text-white"
+                >
+                  Contact me
+                </Link>
+              </Button>
             </div>
           </div>
         </div>
