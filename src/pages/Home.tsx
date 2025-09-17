@@ -7,7 +7,6 @@ import { SiTypescript } from "react-icons/si";
 import nodejsSVG from "@/assets/nodejs.svg";
 import reactSVG from "@/assets/react.svg";
 import { useState } from "react";
-import { Card } from "@/components/ui/card";
 import { Link } from "react-scroll";
 
 function Home() {

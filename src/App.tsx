@@ -39,7 +39,7 @@ function App() {
       </motion.div>
       <motion.div
         id="experience"
-        className="h-fit w-full flex justify-center bg-background relative"
+        className="h-fit w-full flex justify-center bg-background relative p-10"
       >
         <Experience />
       </motion.div>
